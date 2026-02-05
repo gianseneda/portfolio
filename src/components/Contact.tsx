@@ -66,7 +66,7 @@ export const Contact = () => {
       id="contact-section"
     >
       <Image
-        src="/assets/backgrounds/gradients-desktop.png"
+        src="./assets/backgrounds/gradients-desktop.png"
         alt="Background"
         fill
         priority={false}
