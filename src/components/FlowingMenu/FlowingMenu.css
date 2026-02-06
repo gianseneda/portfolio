@@ -66,9 +66,10 @@
 .marquee__inner {
   display: flex;
   align-items: center;
+  justify-content: center;
   position: relative;
   height: 100%;
-  width: fit-content;
+  width: 100%;
   will-change: transform;
 }
 

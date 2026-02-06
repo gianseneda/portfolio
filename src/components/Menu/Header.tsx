@@ -1,9 +1,9 @@
-import { SiGithub, SiLinkedin } from "react-icons/si";
+import { useEffect, useState } from "react";
 
-import { Link,Navbar, NavbarContent, NavbarItem } from "@heroui/react";
+import { Avatar, Link, Navbar, NavbarContent, NavbarItem } from "@heroui/react";
+import { AnimatePresence, motion } from "framer-motion";
 
 import { DownloadCV } from "./DownloadCV";
-import GooeyNav from "./GooeyNav/GooeyNav";
 
 const MENU_ITEMS = [
   { label: "Tecnologies", href: "#tecnologies-section" },
@@ -13,42 +13,108 @@ const MENU_ITEMS = [
 ];
 
 export const Header = () => {
+  const [showAvatar, setShowAvatar] = useState(false);
+
+  const scrollToSection = (href: string) => {
+    const id = href.replace("#", "");
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    const headerOffset = 100;
+    const elementPosition = el.getBoundingClientRect().top;
+    const offsetPosition = elementPosition + window.scrollY - headerOffset;
+
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: "smooth",
+    });
+  };
+
+  useEffect(() => {
+    const sentinel = document.getElementById("top-sentinel");
+    if (!sentinel) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setShowAvatar(!entry.isIntersecting);
+      },
+      { threshold: 0 },
+    );
+
+    observer.observe(sentinel);
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <header className="fixed top-0 left-0 w-full h-20 bg-[#0a0a0a]/90 backdrop-blur z-50">
+    <header className="fixed top-8 left-1/2 -translate-x-1/2 z-50">
       <Navbar
-        className="h-20 w-full px-8 border-b border-b-stone-700"
+        className="h-20 px-8 bg-[#0a0a0a]/50 rounded-full"
         maxWidth="full"
       >
-        <NavbarContent className="flex flex-row gap-4" justify="start">
-          <NavbarItem className="p-2 rounded-lg border border-blue-600 items-center">
+        <NavbarContent className="flex flex-row gap-6" justify="start">
+          <NavbarItem>
             <Link
               href="https://www.linkedin.com/in/gianseneda"
               target="_blank"
               className="flex flex-row gap-2"
             >
-              <SiLinkedin size={24} className="text-blue-600" />
-              <span className="text-blue-600 font-bold text-sm">LinkedIn</span>
+              <span className="font-bold text-stone-200 text-sm">LinkedIn</span>
             </Link>
           </NavbarItem>
-          <NavbarItem className="p-2 rounded-lg border border-stone-200 items-center">
+          <NavbarItem>
             <Link
               href="https://github.com/gianseneda"
               target="_blank"
               className="flex flex-row gap-2"
             >
-              <SiGithub size={24} className="text-stone-200" />
               <span className="text-stone-200 font-bold text-sm">Github</span>
             </Link>
           </NavbarItem>
           <DownloadCV />
         </NavbarContent>
 
-        <NavbarContent justify="end">
-          <GooeyNav
-            items={MENU_ITEMS}
-            particleCount={5}
-            particleDistances={[50, 10]}
-          />
+        <NavbarContent justify="end" className="ml-8">
+          <motion.div layout className="flex items-center gap-4">
+            {MENU_ITEMS.map((item, index) => (
+              <NavbarItem key={index}>
+                <Link
+                  href={item.href}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    scrollToSection(item.href);
+                  }}
+                  className="flex flex-row gap-2"
+                >
+                  <span className="text-stone-200 font-bold text-sm">
+                    {item.label}
+                  </span>
+                </Link>
+              </NavbarItem>
+            ))}
+
+            <AnimatePresence mode="popLayout">
+              {showAvatar && (
+                <motion.div
+                  layout
+                  initial={{ opacity: 0, y: -8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.25, ease: "easeOut" }}
+                >
+                  <Avatar
+                    isBordered
+                    color="primary"
+                    src="/assets/images/profile.jpg"
+                    className="cursor-pointer"
+                    onClick={() =>
+                      window.scrollTo({ top: 0, behavior: "smooth" })
+                    }
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
         </NavbarContent>
       </Navbar>
     </header>

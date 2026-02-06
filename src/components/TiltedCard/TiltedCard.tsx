@@ -1,12 +1,27 @@
-"use client";
-
 import { useRef, useState } from "react";
 
+import type { SpringOptions } from "motion/react";
 import { motion, useMotionValue, useSpring } from "motion/react";
 
 import "./TiltedCard.css";
 
-const springValues = {
+interface TiltedCardProps {
+  imageSrc: React.ComponentProps<"img">["src"];
+  altText?: string;
+  captionText?: string;
+  containerHeight?: React.CSSProperties["height"];
+  containerWidth?: React.CSSProperties["width"];
+  imageHeight?: React.CSSProperties["height"];
+  imageWidth?: React.CSSProperties["width"];
+  scaleOnHover?: number;
+  rotateAmplitude?: number;
+  showMobileWarning?: boolean;
+  showTooltip?: boolean;
+  overlayContent?: React.ReactNode;
+  displayOverlayContent?: boolean;
+}
+
+const springValues: SpringOptions = {
   damping: 30,
   stiffness: 100,
   mass: 2,
@@ -15,6 +30,7 @@ const springValues = {
 export default function TiltedCard({
   imageSrc,
   altText = "Tilted card image",
+  captionText = "",
   containerHeight = "300px",
   containerWidth = "100%",
   imageHeight = "300px",
@@ -22,13 +38,14 @@ export default function TiltedCard({
   scaleOnHover = 1.1,
   rotateAmplitude = 14,
   showMobileWarning = true,
-  overlayContent = <></>,
+  showTooltip = true,
+  overlayContent = null,
   displayOverlayContent = false,
-}) {
-  const ref = useRef(null);
+}: TiltedCardProps) {
+  const ref = useRef<HTMLElement>(null);
 
-  const x = useMotionValue();
-  const y = useMotionValue();
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
   const rotateX = useSpring(useMotionValue(0), springValues);
   const rotateY = useSpring(useMotionValue(0), springValues);
   const scale = useSpring(1, springValues);
@@ -39,9 +56,9 @@ export default function TiltedCard({
     mass: 1,
   });
 
-  const [lastY, setLastY] = useState(0);
+  const [lastY, setLastY] = useState<number>(0);
 
-  function handleMouse(e) {
+  function handleMouse(e: React.MouseEvent<HTMLElement>) {
     if (!ref.current) return;
 
     const rect = ref.current.getBoundingClientRect();

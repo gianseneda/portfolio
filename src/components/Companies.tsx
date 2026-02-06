@@ -1,21 +1,27 @@
 import FlowingMenu from "./FlowingMenu/FlowingMenu";
 
+interface MenuItemData {
+  link: string;
+  text: "ciandt" | "gatec" | "teuteuf";
+  image: string;
+}
+
 export const Companies = () => {
-  const demoItems = [
+  const demoItems: MenuItemData[] = [
     {
       link: "https://teuteuf.fr/",
       text: "teuteuf",
-      image: "https://picsum.photos/600/400?random=3",
+      image: "./assets/backgrounds/teuteuf.png",
     },
     {
       link: "https://ciandt.com/br/pt-br/home",
       text: "ciandt",
-      image: "https://picsum.photos/600/400?random=1",
+      image: "./assets/backgrounds/ciandt.png",
     },
     {
       link: "https://gatec.com.br/simplefarm-agronegocio/",
       text: "gatec",
-      image: "https://picsum.photos/600/400?random=2",
+      image: "./assets/backgrounds/gatec.png",
     },
   ];
 

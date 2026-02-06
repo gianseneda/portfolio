@@ -6,35 +6,36 @@ import {
   AnimatedContent,
   Companies,
   Contact,
+  Header,
   Profile,
   Projects,
-  SplitText,
   Tecnologies,
   Title,
 } from "@/components";
+import { Presentation } from "@/components/Presentation";
 
 export default function Home() {
   const [showContent, setShowContent] = useState(false);
 
   return (
-    <main className="w-full min-h-screen">
+    <main
+      className={`w-full ${showContent ? "min-h-screen" : "h-screen -mt-30 overflow-hidden"}`}
+    >
+      <div id="top-sentinel" className="absolute top-0 h-px w-full" />
       {showContent ? (
-        <AnimatedContent>
-          <Title />
-          <Profile />
-          <Tecnologies />
-          <Projects />
-          <Companies />
-          <Contact />
-        </AnimatedContent>
+        <>
+          <Header />
+          <AnimatedContent>
+            <Title />
+            <Profile />
+            <Tecnologies />
+            <Projects />
+            <Companies />
+            <Contact />
+          </AnimatedContent>
+        </>
       ) : (
-        <div className="flex items-center justify-center h-[calc(100vh-80px)]">
-          <SplitText
-            text="Hello, you!"
-            className="text-6xl font-semibold text-center"
-            onLetterAnimationComplete={() => setShowContent(true)}
-          />
-        </div>
+        <Presentation onFinishAnimation={setShowContent} />
       )}
     </main>
   );

@@ -82,6 +82,7 @@ export const Contact = () => {
           {...getFieldProps("firstName")}
           isInvalid={touched.firstName && !!errors.firstName}
           errorMessage={touched.firstName && errors.firstName}
+          aria-label="first name"
         />
         <Input
           isRequired
@@ -89,6 +90,7 @@ export const Contact = () => {
           {...getFieldProps("email")}
           isInvalid={touched.email && !!errors.email}
           errorMessage={touched.email && errors.email}
+          aria-label="email"
         />
         <Select
           placeholder="Select enquiry type"
@@ -98,6 +100,7 @@ export const Contact = () => {
           }
           isInvalid={touched.type && !!errors.type}
           errorMessage={touched.type && errors.type}
+          aria-label="select the kind of email subject"
         >
           <SelectItem className="text-stone-800" key="freelance">
             Freelance project proposal
@@ -111,7 +114,7 @@ export const Contact = () => {
         </Select>
         <Textarea
           radius="lg"
-          label="Content"
+          aria-label="Content"
           placeholder="Enter the content"
           {...getFieldProps("comment")}
           isInvalid={touched.comment && !!errors.comment}

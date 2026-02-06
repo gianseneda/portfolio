@@ -1,25 +1,44 @@
-import { useEffect, useMemo,useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 
 import { gsap } from "gsap";
 
 import "./FlowingMenu.css";
 
-function FlowingMenu({
-  items = [
-    {
-      link: "",
-      text: "",
-      image: "",
-    },
-  ],
+interface MenuItemData {
+  link: string;
+  text: "ciandt" | "gatec" | "teuteuf";
+  image: string;
+}
+
+interface FlowingMenuProps {
+  items?: MenuItemData[];
+  speed?: number;
+  textColor?: string;
+  bgColor?: string;
+  marqueeBgColor?: string;
+  marqueeTextColor?: string;
+  borderColor?: string;
+}
+
+interface MenuItemProps extends MenuItemData {
+  speed: number;
+  textColor: string;
+  marqueeBgColor: string;
+  marqueeTextColor: string;
+  borderColor: string;
+  isFirst: boolean;
+}
+
+const FlowingMenu: React.FC<FlowingMenuProps> = ({
+  items = [],
   speed = 15,
-  textColor = "#fff",
+  textColor = "#818cf8",
   bgColor = "#060010",
-  marqueeBgColor = "#fff",
+  marqueeBgColor = "#818cf8",
   marqueeTextColor = "#060010",
-  borderColor = "#fff",
-}) {
+  borderColor = "#818cf8",
+}) => {
   return (
     <div className="menu-wrap" style={{ backgroundColor: bgColor }}>
       <nav className="menu">
@@ -32,57 +51,57 @@ function FlowingMenu({
             marqueeBgColor={marqueeBgColor}
             marqueeTextColor={marqueeTextColor}
             borderColor={borderColor}
+            isFirst={idx === 0}
           />
         ))}
       </nav>
     </div>
   );
-}
+};
 
-function MenuItem({
+const MenuItem: React.FC<MenuItemProps> = ({
   link,
-  text = "ciandt" | "gatec" | "teuteuf",
+  text,
   image,
   speed,
   textColor,
-  marqueeBgColor,
-  marqueeTextColor,
   borderColor,
-}) {
-  const itemRef = useRef(null);
-  const marqueeRef = useRef(null);
-  const marqueeInnerRef = useRef(null);
-  const animationRef = useRef(null);
+  isFirst,
+}) => {
+  const itemRef = useRef<HTMLDivElement>(null);
+  const marqueeRef = useRef<HTMLDivElement>(null);
+  const marqueeInnerRef = useRef<HTMLDivElement>(null);
+  const animationRef = useRef<gsap.core.Tween | null>(null);
   const [repetitions, setRepetitions] = useState(4);
 
-  const animationDefaults = { duration: 0.6, ease: "expo" };
+  const animationDefaults: gsap.TweenVars = { duration: 0.6, ease: "expo" };
 
-  const findClosestEdge = (mouseX, mouseY, width, height) => {
-    const topEdgeDist = distMetric(mouseX, mouseY, width / 2, 0);
-    const bottomEdgeDist = distMetric(mouseX, mouseY, width / 2, height);
-    return topEdgeDist < bottomEdgeDist ? "top" : "bottom";
-  };
-
-  const distMetric = (x, y, x2, y2) => {
+  const distMetric = (x: number, y: number, x2: number, y2: number): number => {
     const xDiff = x - x2;
     const yDiff = y - y2;
     return xDiff * xDiff + yDiff * yDiff;
   };
 
+  const findClosestEdge = (
+    mouseX: number,
+    mouseY: number,
+    width: number,
+    height: number,
+  ): "top" | "bottom" => {
+    const topEdgeDist = distMetric(mouseX, mouseY, width / 2, 0);
+    const bottomEdgeDist = distMetric(mouseX, mouseY, width / 2, height);
+    return topEdgeDist < bottomEdgeDist ? "top" : "bottom";
+  };
+
   useEffect(() => {
     const calculateRepetitions = () => {
       if (!marqueeInnerRef.current) return;
-
-      // Get the first marquee part to measure content width
-      const marqueeContent =
-        marqueeInnerRef.current.querySelector(".marquee__part");
+      const marqueeContent = marqueeInnerRef.current.querySelector(
+        ".marquee__part",
+      ) as HTMLElement;
       if (!marqueeContent) return;
-
       const contentWidth = marqueeContent.offsetWidth;
       const viewportWidth = window.innerWidth;
-
-      // Calculate how many copies we need to fill viewport + extra for seamless loop
-      // We need at least 2, but calculate based on content vs viewport
       const needed = Math.ceil(viewportWidth / contentWidth) + 2;
       setRepetitions(Math.max(4, needed));
     };
@@ -95,11 +114,10 @@ function MenuItem({
   useEffect(() => {
     const setupMarquee = () => {
       if (!marqueeInnerRef.current) return;
-
-      const marqueeContent =
-        marqueeInnerRef.current.querySelector(".marquee__part");
+      const marqueeContent = marqueeInnerRef.current.querySelector(
+        ".marquee__part",
+      ) as HTMLElement;
       if (!marqueeContent) return;
-
       const contentWidth = marqueeContent.offsetWidth;
       if (contentWidth === 0) return;
 
@@ -107,7 +125,6 @@ function MenuItem({
         animationRef.current.kill();
       }
 
-      // Animate exactly one content width for seamless loop
       animationRef.current = gsap.to(marqueeInnerRef.current, {
         x: -contentWidth,
         duration: speed,
@@ -116,9 +133,7 @@ function MenuItem({
       });
     };
 
-    // Small delay to ensure DOM is ready after repetitions update
     const timer = setTimeout(setupMarquee, 50);
-
     return () => {
       clearTimeout(timer);
       if (animationRef.current) {
@@ -127,7 +142,7 @@ function MenuItem({
     };
   }, [text, image, repetitions, speed]);
 
-  const handleMouseEnter = (ev) => {
+  const handleMouseEnter = (ev: React.MouseEvent<HTMLAnchorElement>) => {
     if (!itemRef.current || !marqueeRef.current || !marqueeInnerRef.current)
       return;
     const rect = itemRef.current.getBoundingClientRect();
@@ -142,7 +157,7 @@ function MenuItem({
       .to([marqueeRef.current, marqueeInnerRef.current], { y: "0%" }, 0);
   };
 
-  const handleMouseLeave = (ev) => {
+  const handleMouseLeave = (ev: React.MouseEvent<HTMLAnchorElement>) => {
     if (!itemRef.current || !marqueeRef.current || !marqueeInnerRef.current)
       return;
     const rect = itemRef.current.getBoundingClientRect();
@@ -159,7 +174,7 @@ function MenuItem({
   const logo = useMemo(() => {
     switch (text) {
       case "ciandt":
-        return "ciandt.png";
+        return "ciandt.svg";
       case "gatec":
         return "gatec.png";
       default:
@@ -168,17 +183,20 @@ function MenuItem({
   }, [text]);
 
   return (
-    <div className="menu__item" ref={itemRef} style={{ borderColor }}>
+    <div
+      className="menu__item"
+      ref={itemRef}
+      style={{ borderColor, borderTop: isFirst ? "none" : undefined }}
+    >
       <a
         className="menu__item-link"
         href={link}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         style={{ color: textColor }}
-        target="_blank"
       >
         <Image
-          src={`/assets/icons/${logo}`}
+          src={`./assets/icons/${logo}`}
           width={text === "teuteuf" ? 256 : 128}
           height={text === "teuteuf" ? 256 : 128}
           alt="logo"
@@ -187,37 +205,32 @@ function MenuItem({
       <div
         className="marquee"
         ref={marqueeRef}
-        style={{ backgroundColor: marqueeBgColor }}
+        style={{
+          backgroundImage: `url(${image})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
       >
-        <div className="marquee__inner-wrap">
-          <div
-            className="marquee__inner"
-            ref={marqueeInnerRef}
-            aria-hidden="true"
-          >
-            {[...Array(repetitions)].map((_, idx) => (
-              <div
-                className="marquee__part"
-                key={idx}
-                style={{ color: marqueeTextColor }}
-              >
-                <Image
-                  src={`/assets/icons/${logo}`}
-                  width={text === "teuteuf" ? 144 : 72}
-                  height={text === "teuteuf" ? 144 : 72}
-                  alt="logo"
-                />
-                <div
-                  className="marquee__img"
-                  style={{ backgroundImage: `url(${image})` }}
-                />
-              </div>
-            ))}
-          </div>
+        <div
+          className="relative marquee__inner"
+          ref={marqueeInnerRef}
+          aria-hidden="true"
+        >
+          {text === "teuteuf" && (
+            <div className="absolute top-0 left-0 w-full h-full bg-slate-900 opacity-50" />
+          )}
+          <Image
+            src={`./assets/icons/${logo}`}
+            width={text === "teuteuf" ? 256 : 128}
+            height={text === "teuteuf" ? 256 : 128}
+            alt="logo"
+            className="z-10"
+          />
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default FlowingMenu;

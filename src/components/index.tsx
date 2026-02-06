@@ -7,7 +7,6 @@ import LogoLoop from "./LogoLoop/LogoLoop";
 import { Header } from "./Menu/Header";
 import { Profile } from "./Profile";
 import { Projects } from "./Projects";
-import ScrollStack from "./ScrollStack/ScrollStack";
 import SplitText from "./SplitText";
 import { Tecnologies } from "./Tecnologies";
 import TiltedCard from "./TiltedCard/TiltedCard";
@@ -23,7 +22,6 @@ export {
   LogoLoop,
   Profile,
   Projects,
-  ScrollStack,
   SplitText,
   Tecnologies,
   TiltedCard,

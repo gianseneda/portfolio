@@ -17,13 +17,10 @@ export const DownloadCV = () => {
 
   return (
     <>
-      <NavbarItem
-        className="p-2 rounded-lg border border-stone-500 items-center cursor-pointer"
-        onClick={onOpen}
-      >
+      <NavbarItem className="cursor-pointer" onClick={onOpen}>
         <div className="flex gap-2 items-center">
           <FiDownload size={24} className="text-stone-300" />
-          <span className="text-stone-200 font-bold text-sm">Download CV</span>
+          <span className="text-stone-200 font-bold text-sm">CV</span>
         </div>
       </NavbarItem>
 
@@ -31,7 +28,7 @@ export const DownloadCV = () => {
         isOpen={isOpen}
         onClose={onClose}
         placement="center"
-        className="bg-stone-800 text-stone-300"
+        className="bg-stone-900 text-stone-300"
       >
         <ModalContent>
           <ModalHeader className="text-lg font-semibold">
@@ -73,7 +70,11 @@ export const DownloadCV = () => {
           </ModalBody>
 
           <ModalFooter>
-            <Button variant="light" onPress={onClose}>
+            <Button
+              variant="solid"
+              onPress={onClose}
+              className="text-stone-700"
+            >
               Close
             </Button>
           </ModalFooter>
