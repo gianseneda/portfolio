@@ -105,7 +105,7 @@ export const Header = () => {
                   <Avatar
                     isBordered
                     color="primary"
-                    src="/assets/images/profile.jpg"
+                    src="./assets/images/profile.jpg"
                     className="cursor-pointer"
                     onClick={() =>
                       window.scrollTo({ top: 0, behavior: "smooth" })
