@@ -29,7 +29,7 @@ export const Profile = () => {
           className="whitespace-pre-line"
         >
           {
-            "I’m Gian Paulo Seneda, a Software Developer with strong experience in Reac and React Native, working across web and mobile products in global, remote-first teams.\n\n I’ve worked end to end on digital products — from UI design and implementation to API integration, testing, and delivery — always prioritizing performance, usability, and business impact.\n\n I’m comfortable collaborating with cross-functional teams, working with legacy codebases, and delivering scalable, maintainable solutions. I’m particular interested in teams that value product thinking, clean code, and continuous improvement, and I’d be excited to bring my experience to your organization."
+            "I’m Gian Paulo Seneda, a Software Developer with strong experience in React and React Native, working across web and mobile products in global, remote-first teams.\n\n I’ve worked end to end on digital products — from UI design and implementation to API integration, testing, and delivery — always prioritizing performance, usability, and business impact.\n\n I’m comfortable collaborating with cross-functional teams, working with legacy codebases, and delivering scalable, maintainable solutions. I’m particular interested in teams that value product thinking, clean code, and continuous improvement, and I’d be excited to bring my experience to your organization."
           }
         </motion.p>
       </div>
