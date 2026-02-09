@@ -194,6 +194,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         style={{ color: textColor }}
+        target="_blank"
       >
         <Image
           src={`./assets/icons/${logo}`}
