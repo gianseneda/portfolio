@@ -5,6 +5,7 @@ import { Button, Link } from "@heroui/react";
 import AnimatedContent from "./AnimatedContent";
 import CardStack from "./CardStack";
 import CardSwap, { Card } from "./CardSwap/CardSwap";
+import Carousel from "./Carousel/Carousel";
 
 type ProjectItems = {
   index: number;
@@ -49,7 +50,7 @@ const PROJECT_ITEMS: ProjectItems[] = [
     description:
       "Worldle is a daily geography game in which users must identify countries based on their shapes. In addition to the main round, the game offers extra challenges focused on geographic data, characteristics, and curiosities.\n\nThe application consumes a RESTful API that provides round data in JSON and GeoJSON formats. On the frontend, the architecture is component-driven, enabling dynamic UI rendering based on the type of round presented to the user.\n\nThe UI leverages a company-maintained component library, documented and tested with Storybook to ensure consistency and reusability.",
     link: "https://worldle.teuteuf.fr/",
-    images: ["worldle.png", "worldle2.png"],
+    images: ["worldle.png", "worldle2.png", "worldle3.png"],
   },
 ];
 
@@ -64,11 +65,17 @@ export const Projects = () => {
   return (
     <section
       id="projects-section"
-      className="relative min-h-[420px] p-8 scroll-mt-24"
+      className="relative min-h-[800px] md:min-h-[420px] p-8 scroll-mt-24"
     >
       <h2 className="mb-6 text-2xl font-semibold">Projects</h2>
-      <div className="flex flex-row gap-8 h-[500px]">
-        <div className="flex flex-1 pr-4">
+      <div className="flex flex-col items-center md:flex-row gap-8 md:h-[500px]">
+        <div
+          className="block md:hidden"
+          style={{ height: "500px", position: "relative" }}
+        >
+          <Carousel items={PROJECT_ITEMS} loop={true} round={false} />
+        </div>
+        <div className="hidden md:block flex flex-1 pr-4">
           {selectedProject ? (
             <AnimatedContent
               key={selectedProject.index}
@@ -101,7 +108,7 @@ export const Projects = () => {
           )}
         </div>
 
-        <div className="flex flex-1 -translate-x-30">
+        <div className="hidden md:block flex flex-1 md:-translate-x-30 md:translate-y-70">
           <CardSwap
             onCardClick={(cardIndex: number) => setShowProject(cardIndex)}
           >

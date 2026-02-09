@@ -1,25 +1,31 @@
 import { motion } from "framer-motion";
 
+import { useIsMobile } from "@/hooks/useIsMobile";
+
 import TiltedCard from "./TiltedCard/TiltedCard";
 
 export const Profile = () => {
+  const isMobile = useIsMobile();
+
   return (
-    <section className="flex flex-row justify-center">
-      <TiltedCard
-        imageSrc="./assets/images/profile.jpg"
-        altText="Profile Pic"
-        containerHeight="500px"
-        containerWidth="100vw"
-        imageHeight="500px"
-        imageWidth="500px"
-        rotateAmplitude={12}
-        scaleOnHover={1.05}
-        showMobileWarning={false}
-        displayOverlayContent
-        overlayContent={
-          <p className="tilted-card-demo-text">I am Gian Seneda</p>
-        }
-      />
+    <section className="flex flex-col px-4 gap-8 md:px-0 md:flex-row md:gap-0 justify-center">
+      {!isMobile && (
+        <TiltedCard
+          imageSrc="./assets/images/profile.jpg"
+          altText="Profile Pic"
+          containerHeight={"500px"}
+          containerWidth="100vw"
+          imageHeight={"500px"}
+          imageWidth={"500px"}
+          rotateAmplitude={12}
+          scaleOnHover={1.05}
+          showMobileWarning={false}
+          displayOverlayContent
+          overlayContent={
+            <p className="tilted-card-demo-text">I am Gian Seneda</p>
+          }
+        />
+      )}
       <div className="flex w-[100%] items-center mr-20">
         <motion.p
           initial={{ opacity: 0, y: -40 }}
