@@ -9,7 +9,7 @@ import {
   Header,
   Profile,
   Projects,
-  Tecnologies,
+  Technologies,
   Title,
 } from "@/components";
 import { Presentation } from "@/components/Presentation";
@@ -28,7 +28,7 @@ export default function Home() {
           <AnimatedContent>
             <Title />
             <Profile />
-            <Tecnologies />
+            <Technologies />
             <Projects />
             <Companies />
             <Contact />

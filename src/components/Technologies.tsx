@@ -14,7 +14,7 @@ import Image from "next/image";
 import LogoLoop from "./LogoLoop/LogoLoop";
 import TrueFocus from "./TrueFocus/TrueFocus";
 
-export const Tecnologies = () => {
+export const Technologies = () => {
   const techLogos = [
     { node: <SiReact />, title: "React", href: "https://react.dev" },
     { node: <SiNextdotjs />, title: "Next.js", href: "https://nextjs.org" },
@@ -58,7 +58,7 @@ export const Tecnologies = () => {
   return (
     <section
       className="relative min-h-[420px] overflow-hidden bg-neutral-900 mt-20 scroll-mt-24"
-      id="tecnologies-section"
+      id="technologies-section"
     >
       <Image
         src="./assets/backgrounds/gradients-desktop.png"

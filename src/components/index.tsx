@@ -8,7 +8,7 @@ import { Header } from "./Menu/Header";
 import { Profile } from "./Profile";
 import { Projects } from "./Projects";
 import SplitText from "./SplitText";
-import { Tecnologies } from "./Tecnologies";
+import { Technologies } from "./Technologies";
 import TiltedCard from "./TiltedCard/TiltedCard";
 import { Title } from "./Title";
 
@@ -23,7 +23,7 @@ export {
   Profile,
   Projects,
   SplitText,
-  Tecnologies,
+  Technologies,
   TiltedCard,
   Title,
 };
